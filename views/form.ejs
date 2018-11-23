@@ -1,0 +1,20 @@
+<% include ./partials/header %>
+
+<div id="content" class="ui container">
+ <!-- main content here -->  
+ <form class="ui form" action="/blogs" method="POST">
+    <div class="field">
+        <input type="text" name="title" placeholder="title">
+    </div>
+    <div class="field">
+        <input type="text" name="image" placeholder="image url">
+    </div>
+    <div class="field">
+        <textarea  name="body" placeholder="Blog post content goes here"></textarea>
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+</form> 
+</div>
+
+
+<% include ./partials/footer %>

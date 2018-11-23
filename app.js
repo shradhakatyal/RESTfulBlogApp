@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 // App configuration
-app.use(express.static('public'));
+app.use(express.static('public/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
@@ -40,6 +40,21 @@ app.get("/blogs", (req, res) => {
     Blog.find({}, (err, blogs) => {
         if(!err) {
             res.render("index", {blogs});
+        }
+    });
+});
+
+app.get("/blogs/new", (req, res) => {
+    res.render("form");
+});
+
+app.post("/blogs", (req, res) => {
+    let title = req.body.title;
+    let image = req.body.image;
+    let body = req.body.body;
+    Blog.create({title, image, body}, (err, blog) => {
+        if(!err) {
+            console.log(blog);
         }
     });
 });
