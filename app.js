@@ -49,12 +49,16 @@ app.get("/blogs/new", (req, res) => {
 });
 
 app.post("/blogs", (req, res) => {
-    let title = req.body.title;
-    let image = req.body.image;
-    let body = req.body.body;
-    Blog.create({title, image, body}, (err, blog) => {
+    // let title = req.body.title;
+    // let image = req.body.image;
+    // let body = req.body.body;
+    let newBlog = req.body.blog;
+    Blog.create(newBlog, (err, blog) => {
         if(!err) {
             console.log(blog);
+            res.redirect("/blogs");
+        } else {
+            res.render("form");
         }
     });
 });

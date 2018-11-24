@@ -3,5 +3,9 @@ i.icon {
 }
 
 .ui#content {
-    padding: 100px;
+    padding: 2em;
+}
+
+.container.main {
+    margin-top: 5em;
 }
