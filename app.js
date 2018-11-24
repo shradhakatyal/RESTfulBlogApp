@@ -1,3 +1,4 @@
+const expressSanitizer = require('express-sanitizer');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -10,6 +11,8 @@ const port = 3000;
 app.use(express.static('public/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
+// This line should be after body parser line.
+app.use(expressSanitizer());
 app.set("view engine", "ejs");
 
 mongoose.connect("mongodb://localhost/blog_app");
@@ -46,11 +49,14 @@ app.get("/blogs", (req, res) => {
     });
 });
 
+// New Form Route
 app.get("/blogs/new", (req, res) => {
     res.render("form");
 });
 
+// Create Route
 app.post("/blogs", (req, res) => {
+    req.body.blog.body = req.sanitize(req.body.blog.body);
     let newBlog = req.body.blog;
     Blog.create(newBlog, (err, blog) => {
         if(!err) {
@@ -62,6 +68,7 @@ app.post("/blogs", (req, res) => {
     });
 });
 
+// Show Route
 app.get("/blogs/:id", (req, res) => {
     let id = req.params.id;
     Blog.findById(id, (err, blog) => {
@@ -74,6 +81,7 @@ app.get("/blogs/:id", (req, res) => {
     });
 });
 
+//Edit Form Route
 app.get("/blogs/:id/edit", (req, res) => {
     let id = req.params.id;
     Blog.findById(id, (err, blog) => {
@@ -85,7 +93,9 @@ app.get("/blogs/:id/edit", (req, res) => {
     });
 });
 
+// Update Route
 app.put("/blogs/:id", (req, res) => {
+    req.body.blog.body = req.sanitize(req.body.blog.body);
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, blog) => {
         if(!err) {
             res.redirect(`/blogs/${req.params.id}`);
@@ -95,6 +105,7 @@ app.put("/blogs/:id", (req, res) => {
     });
 });
 
+// Delete Route
 app.delete("/blogs/:id", (req, res) => {
     Blog.findByIdAndRemove(req.params.id, (err, deletdBlog) => {
         if(!err) {
