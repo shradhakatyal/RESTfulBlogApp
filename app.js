@@ -49,9 +49,6 @@ app.get("/blogs/new", (req, res) => {
 });
 
 app.post("/blogs", (req, res) => {
-    // let title = req.body.title;
-    // let image = req.body.image;
-    // let body = req.body.body;
     let newBlog = req.body.blog;
     Blog.create(newBlog, (err, blog) => {
         if(!err) {
@@ -59,6 +56,29 @@ app.post("/blogs", (req, res) => {
             res.redirect("/blogs");
         } else {
             res.render("form");
+        }
+    });
+});
+
+app.get("/blogs/:id", (req, res) => {
+    let id = req.params.id;
+    Blog.findById(id, (err, blog) => {
+        if(!err) {
+            console.log("blog", blog);
+            res.render("details", {blog});
+        } else {
+            res.redirect("/blogs");
+        }
+    });
+});
+
+app.get("/blogs/:id/edit", (req, res) => {
+    let id = req.params.id;
+    Blog.findById(id, (err, blog) => {
+        if(!err) {
+            res.render("edit", {blog});
+        } else {
+            res.redirect("/blogs");
         }
     });
 });
