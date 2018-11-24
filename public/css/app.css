@@ -2,10 +2,14 @@ i.icon {
     font-size: 2em;
 }
 
-.ui#content {
-    padding: 2em;
+#content {
+    margin-top: 5em;
 }
 
 .container.main {
     margin-top: 5em;
+}
+
+.inline {
+    display: inline;
 }
